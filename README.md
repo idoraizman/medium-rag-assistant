@@ -31,15 +31,22 @@ curl https://<your-url>/api/stats
 ```
 
 ## Stack
-- **Next.js** (TypeScript) deployed on Vercel
+- **Vercel Serverless Functions** (TypeScript)
 - **Pinecone** vector database (1536-dim, cosine)
 - **Embedding**: `4UHRUIN-text-embedding-3-small` (api.llmod.ai)
 - **Generation**: `4UHRUIN-gpt-5-mini` (api.llmod.ai)
 
+## RAG Configuration
+| Parameter | Value |
+|---|---|
+| Chunk size | 512 tokens |
+| Overlap ratio | 0.2 |
+| Top-k | 15 |
+
 ## Setup
 
 ### 1. Environment variables
-Create `.env.local` in the project root:
+Set the following in Vercel project settings (or `.env.local` for local dev):
 ```
 LLMOD_API_KEY=...
 LLMOD_BASE_URL=https://api.llmod.ai/v1
@@ -47,32 +54,22 @@ PINECONE_API_KEY=...
 PINECONE_INDEX_NAME=medium-articles-agent
 ```
 
-### 2. Install dependencies
-```bash
-npm install
-```
-
-### 3. Dataset
+### 2. Dataset
 Download `medium-english-50mb.csv` and place it in the project root.
 
-### 4. Ingest articles (Python)
+### 3. Ingest articles (Python)
 ```bash
 cd scripts
 python3.11 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
-# Phase A: tune hyperparameters on 300-article subset (cheap ~$0.01)
+# Tune hyperparameters on 300-article subset
 .venv/bin/python ingest.py --limit 300 --namespace config-b --chunk-size 512 --overlap 0.2
 
-# Phase B: ingest full corpus with winning config (do once ~$0.27)
+# Ingest full corpus with final config (run once)
 .venv/bin/python ingest.py --namespace main
 ```
 
-### 5. Run locally
-```bash
-npm run dev
-```
-
-### 6. Deploy
+### 4. Deploy
 ```bash
 npx vercel --prod
 ```
