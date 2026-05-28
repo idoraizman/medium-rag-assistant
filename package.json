@@ -1,0 +1,17 @@
+{
+  "name": "medium-rag-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pinecone-database/pinecone": "^7.2.0",
+    "openai": "^6.39.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@vercel/node": "^5",
+    "typescript": "^5"
+  }
+}

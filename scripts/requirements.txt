@@ -1,0 +1,5 @@
+openai>=1.0.0
+pinecone>=5.0.0
+pandas>=2.0.0
+tiktoken>=0.7.0
+tqdm>=4.0.0
